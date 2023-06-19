@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach Chrome to localhost",
+      "url": "http://localhost:3000/twilio-sms-web",
+      "webRoot": "${workspaceFolder}",
+      "port": 9222
+    }
+  ]
+}

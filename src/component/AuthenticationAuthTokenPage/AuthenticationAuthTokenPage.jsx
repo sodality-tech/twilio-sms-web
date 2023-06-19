@@ -1,15 +1,15 @@
-import ErrorLabel from "../ErrorLabel/ErrorLabel";
-import DefaultLayout from "../DefaultLayout/DefaultLayout";
-import AuthenticationAuthTokenForm from "./AuthenticationAuthTokenPageView";
+import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Authentication,
   AuthenticationMethod,
   mapAuthenticationError,
   useAuthentication
 } from "../../context/AuthenticationProvider";
-import {useRef, useState} from "react";
-import {useHistory} from "react-router-dom";
 import { getTwilioPhoneNumbers } from "../../hook/getTwilioPhoneNumbers";
+import DefaultLayout from "../DefaultLayout/DefaultLayout";
+import ErrorLabel from "../ErrorLabel/ErrorLabel";
+import AuthenticationAuthTokenForm from "./AuthenticationAuthTokenPageView";
 
 const AuthenticationAuthTokenPage = () => {
   const [authentication, setAuthentication] = useAuthentication()
