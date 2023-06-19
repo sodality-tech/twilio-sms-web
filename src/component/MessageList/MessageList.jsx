@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import useGetTwilioMessages from "../../hook/useGetTwilioMessages";
-import {Loading} from "./MessageListView";
 import MessageCard from "../MessageCard/MessageCard";
+import { Loading } from "./MessageListView";
 
 const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () => {}, onError = () => {}}) => {
   const [loading, setLoading] = useState(true)
@@ -9,8 +9,8 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
   const [hasMounted, setHasMounted] = useState(false)
   const [previousPhoneNumber, setPreviousPhoneNumber] = useState(null)
 
-  const handleSuccess = useCallback((response) => {
-    const messagesMapped = response
+  const handleSuccess = useCallback(({messages, countByPhoneNumber}) => {
+    const messagesMapped = messages
       .map(v => ({
         messageSid: v.sid,
         direction: v.direction,
@@ -18,7 +18,9 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
         to: v.to,
         date: v.date_created,
         status: v.status,
-        body: v.body
+        body: v.body,
+        // The phone number we requested messages from should be undefined
+        messageCount: countByPhoneNumber[v.from] || countByPhoneNumber[v.to]
       }))
     setMessages(messagesMapped)
     setLoading(false)
@@ -29,18 +31,22 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
     onComplete: onComplete,
     onError: onError
   })
+  
+  const getMessagesForPhone = useCallback((phoneNumber) => {
+    getMessages({phoneNumber: phoneNumber}).then(handleSuccess).catch(onError).then(onComplete)
+    setPreviousPhoneNumber(phoneNumber)
+    setLoading(true)
+  })
 
   useEffect(() => {
     setHasMounted(true)
   }, [setHasMounted])
 
   useEffect(() => {
-    if (hasMounted && (phoneNumber?.length > 0 && previousPhoneNumber !== phoneNumber)) {
-      getMessages({phoneNumber: phoneNumber}).then(handleSuccess).catch(onError).then(onComplete)
-      setPreviousPhoneNumber(phoneNumber)
-      setLoading(true)
+    if (previousPhoneNumber !== phoneNumber && hasMounted) {
+      getMessagesForPhone(phoneNumber)
     }
-  }, [hasMounted, phoneNumber, previousPhoneNumber, getMessages, messages, handleSuccess, onError, onComplete, setPreviousPhoneNumber, setLoading])
+  }, [hasMounted, phoneNumber])
 
   if (loading) return <Loading className="h1 m-2"/>
 
@@ -54,7 +60,9 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
       direction={v.direction}
       status={v.status}
       date={v.date}
+      getMessagesForPhone={getMessagesForPhone}
       onActionClick={onActionClick}
+      messageCount={v.messageCount}
     />)
 }
 

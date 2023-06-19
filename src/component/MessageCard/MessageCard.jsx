@@ -1,7 +1,7 @@
-import {CopyTwoTone, RightCircleFilled} from "@ant-design/icons";
-import "./MessageCard.css";
+import { CopyTwoTone, RightCircleFilled } from "@ant-design/icons";
+import { useComposerContext } from "../../context/ComposerProvider";
 import MessageAction from "../MessageAction/MessageAction";
-import {useComposerContext} from "../../context/ComposerProvider"
+import "./MessageCard.css";
 
 const toBaseDirection = direction => direction.includes('inbound') ? 'inbound' : 'outbound'
 const messageLabelClass = direction => `message-card-label text-code text-small ${toBaseDirection(direction)}`
@@ -33,8 +33,8 @@ const messageActionOnClick = (baseDirection, from, to, setComposerContext, onAct
   onActionClick()
 }
 
-const MessageCard = ({messageSid='', direction='', from='', to='',
-                      date=new Date(), status='', body='', onActionClick=()=>{}}) => {
+const MessageCard = ({messageCount = 1, messageSid='', direction='', from='', to='',
+                      date=new Date(), status='', body='', onActionClick=()=>{}, getMessagesForPhone}) => {
 
   const [ , setComposerContext] = useComposerContext()
   const baseDirection = toBaseDirection(direction)
@@ -48,17 +48,20 @@ const MessageCard = ({messageSid='', direction='', from='', to='',
         <div className="message-card-header text-tiny">
         <span>
           <CopyToClipboard txt={from}/>
-          <strong>From:</strong> {from}
+          <strong>From:</strong> <button onClick={() => getMessagesForPhone(from)}>{from}</button>
         </span>
           <span>
           <CopyToClipboard txt={to}/>
-          <strong>To:</strong> {to}
+          <strong>To:</strong> <button  onClick={() => getMessagesForPhone(to)}>{to}</button>
         </span>
           <span className="message-card-header-status">
           <strong>Status:</strong> {status}
         </span>
           <span>
           <strong>Direction:</strong> {direction}
+        </span>
+          <span>
+          <strong>Messages:</strong> {messageCount}
         </span>
         </div>
         <div className="message-card-body text-code text-small">
