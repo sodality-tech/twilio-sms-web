@@ -1,10 +1,11 @@
-import "./MessagesPage.css"
-import MessageList from "../MessageList/MessageList";
+import { useState } from "react";
 import MessageComposer from "../MessageComposer/MessageComposer";
-import {useState} from "react";
+import MessageList from "../MessageList/MessageList";
+import "./MessagesPage.css";
 
 export const Tabs = ({phoneNumber=''}) => {
   const [activeTab, setActiveTab] = useState('messages')
+  const [isRepliesOnly, setIsRepliesOnly] = useState(false)
   const handleActivateMessages = () => setActiveTab('messages')
   const handleActivateComposer = () => setActiveTab('composer')
   const isMessagesActive = activeTab === 'messages'
@@ -25,7 +26,14 @@ export const Tabs = ({phoneNumber=''}) => {
         </ul>
       </div>
     </div>
-    {isMessagesActive && <MessageList phoneNumber={phoneNumber} onActionClick={handleActivateComposer}/>}
+    {/* // add button to toggle for "replies only" */}
+    <input
+      type="checkbox"
+      checked={isRepliesOnly}
+      onChange={() => setIsRepliesOnly(!isRepliesOnly)}
+    />
+    <label>Replies Only</label>
+    {isMessagesActive && <MessageList phoneNumber={phoneNumber} setIsRepliesOnly={setIsRepliesOnly} isRepliesOnly={isRepliesOnly} onActionClick={handleActivateComposer}/>}
     {isComposerActive && <MessageComposer phoneNumber={phoneNumber}/>}
   </>
 }

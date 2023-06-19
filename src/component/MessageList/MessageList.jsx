@@ -3,7 +3,7 @@ import useGetTwilioMessages from "../../hook/useGetTwilioMessages";
 import MessageCard from "../MessageCard/MessageCard";
 import { Loading } from "./MessageListView";
 
-const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () => {}, onError = () => {}}) => {
+const MessageList = ({phoneNumber = '', setIsRepliesOnly, isRepliesOnly=false, onActionClick=()=>{}, onComplete = () => {}, onError = () => {}}) => {
   const [loading, setLoading] = useState(true)
   const [messages, setMessages] = useState([])
   const [hasMounted, setHasMounted] = useState(false)
@@ -33,6 +33,7 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
   })
   
   const getMessagesForPhone = useCallback((phoneNumber) => {
+    setIsRepliesOnly(false)
     getMessages({phoneNumber: phoneNumber}).then(handleSuccess).catch(onError).then(onComplete)
     setPreviousPhoneNumber(phoneNumber)
     setLoading(true)
@@ -50,7 +51,12 @@ const MessageList = ({phoneNumber = '', onActionClick=()=>{}, onComplete = () =>
 
   if (loading) return <Loading className="h1 m-2"/>
 
-  return messages.map(v =>
+  return messages.filter(v => {
+    if (isRepliesOnly) {
+      return v.direction === 'inbound'
+    }
+    return true
+  }).map(v =>
     <MessageCard
       key={v.messageSid}
       messageSid={v.messageSid}
