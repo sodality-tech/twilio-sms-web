@@ -32,8 +32,8 @@ const AuthenticationAuthTokenPage = () => {
     history.push('/phone-numbers')
   }
 
-  const handleSignIn = () => {
-    const auth = new Authentication(accountSid, authToken, '', '', AuthenticationMethod.AUTH_TOKEN)
+  const handleSignIn = (sid, token) => {
+    const auth = new Authentication(sid ?? accountSid, token ?? authToken, '', '', AuthenticationMethod.AUTH_TOKEN)
     authenticationRef.current = auth
     setLoading(true)
     /*

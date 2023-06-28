@@ -33,9 +33,7 @@ const AuthenticationAuthTokenForm = ({ accountSid='', authToken='', loading=fals
     <div className="buttons-container">
       <button className="btn btn-secondary" id="AUTHENTICATION-TOKEN-CANCEL" type="button" onClick={onCancel}>Cancel</button>
       <button className="btn btn-secondary" id="AUTHENTICATION-API-KEY-ENV" type='button' onClick={() => {
-        onAccountSidChange(process.env.TWILIO_ACCOUNT_SID)
-        onAuthTokenChange(process.env.TWILIO_AUTH_TOKEN)
-        onSignIn()
+        onSignIn('sid', 'token')
       }}>Env-Creds</button>
       <button className={`btn btn-primary ${loadingClassName(loading)}`} id="AUTHENTICATION-TOKEN-SIGN-IN" type="submit">Sign-in</button>
     </div>
