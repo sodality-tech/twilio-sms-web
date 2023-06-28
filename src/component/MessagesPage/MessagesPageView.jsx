@@ -32,7 +32,7 @@ export const Tabs = ({phoneNumber=''}) => {
       checked={isRepliesOnly}
       onChange={() => setIsRepliesOnly(!isRepliesOnly)}
     />
-    <label>Replies Only</label>
+    <label>Incoming Only</label>
     {isMessagesActive && <MessageList phoneNumber={phoneNumber} setIsRepliesOnly={setIsRepliesOnly} isRepliesOnly={isRepliesOnly} onActionClick={handleActivateComposer}/>}
     {isComposerActive && <MessageComposer phoneNumber={phoneNumber}/>}
   </>
