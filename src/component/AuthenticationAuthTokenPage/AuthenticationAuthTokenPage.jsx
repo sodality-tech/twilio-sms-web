@@ -40,7 +40,6 @@ const AuthenticationAuthTokenPage = () => {
      * We want to get phone numbers after sign-in because at minimum we want to know
      * if the credentials have permissions for it before moving forward
      * 
-     * TODO: Get a list of permissions from Twilio and controll what the user may or may not do.
      */
     getTwilioPhoneNumbers(auth, 1)
       .then(handlePhoneNumbersSuccess)

@@ -2,11 +2,17 @@ Twilio SMS Web
 ==============
 A minimalist web application to send and receive SMS with Twilio.
 
+Bootleg deployment
+==============
+1) `npm run build`
+1) Upload assets to https://console.cloud.google.com/storage/browser/twilio-message-viewer%3Btab=objects?authuser=0&project=brave-pen-333720&prefix=&forceOnObjectsSortingFiltering=false
+1) Replace index.html links with auth links from assets in the bucket 
+
 Hosted Application
 ==================
-A version of this application is available on GitHub Pages:
+A version of this application is available on:
 
-https://rafasantos.github.io/twilio-sms-web
+https://storage.cloud.google.com/twilio-message-viewer/index4.html?authuser=0
 
 Twilio Account
 ==============

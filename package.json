@@ -2,6 +2,7 @@
   "name": "twilio-sms-web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://storage.googleapis.com/twilio-message-viewer/",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@testing-library/jest-dom": "^5.14.1",
